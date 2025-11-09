@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: bcbbf2;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fasttype.GameController">
+
+    <top>
+      <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0" style="-fx-background-color: #5a4edb;" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="FastType" textFill="#e4aaa2">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="2.0" />
+         </BorderPane.margin>
+      </HBox>
+   </top>
+   <center>
+      <VBox alignment="CENTER" prefHeight="316.0" prefWidth="600.0" style="-fx-background-color: #2A397D;" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="wordLabel" alignment="TOP_CENTER" ellipsisString="" style="-fx-background-color: #5a4edb; -fx-background-radius: 128;" text="Word" textFill="#ea88b9">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="48.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="48.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets left="8.0" right="8.0" />
+               </padding>
+            </Label>
+            <HBox alignment="BOTTOM_CENTER" prefHeight="35.0" prefWidth="600.0">
+               <children>
+                  <TextField fx:id="inputField" prefHeight="25.0" prefWidth="384.0" promptText="write here..." style="-fx-background-color: bcbbf2; -fx-text-fill: #2A397D; -fx-prompt-text-fill: #5a4edb;">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="12.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="validateButton" mnemonicParsing="false" onAction="#validateWord" style="-fx-background-color: ea88b9;" text="Submit" textFill="#2a397d">
+                     <HBox.margin>
+                        <Insets left="8.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <Label fx:id="feedbackLabel" text="Correct!" textFill="#bcbbf2" underline="true">
+               <VBox.margin>
+                  <Insets top="4.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="timerLabel" text="🕑 20" textFill="#e4aaa2">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="36.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="32.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <GridPane prefHeight="36.0" prefWidth="600.0" BorderPane.alignment="CENTER_LEFT">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="573.0" minWidth="10.0" prefWidth="532.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="321.0" minWidth="10.0" prefWidth="68.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetGame" prefHeight="23.0" prefWidth="62.0" style="-fx-background-color: ea88b9;" text="Reset" textFill="#2a397d" GridPane.columnIndex="1">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font>
+            </Button>
+            <Label fx:id="infoLabel" text="Info" textFill="#2a397d">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="12.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="8.0" />
+               </GridPane.margin>
+            </Label>
+         </children>
+      </GridPane>
+   </bottom>
+</BorderPane>
