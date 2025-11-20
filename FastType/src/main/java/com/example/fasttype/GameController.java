@@ -8,6 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
+/**
+ * Controller class for the FastType game UI.
+ * <p>
+ * Manages player input, validates typed words, updates the timer, handles levels,
+ * and coordinates communication between the interface and the game logic.
+ */
 public class GameController {
 
     @FXML private Label wordLabel;
@@ -16,65 +22,67 @@ public class GameController {
     @FXML private Label timerLabel;
     @FXML private Button validateButton;
     @FXML private Label infoLabel;
-    private int correctStreak = 0;   // aciertos seguidos
-    private int level = 1;           // nivel actual
+
+    private int correctStreak = 0;
+    private int level = 1;
     private boolean gameOver = false;
 
     private GameLogic gameLogic = new GameLogic();
     private Timeline timeline;
     private int timeLeft;
-    private int totalTime = 0; // en segundos
+    private int totalTime = 0;
 
-
-
+    /**
+     * Initializes the controller when the UI is loaded.
+     * <p>
+     * Sets up event listeners for user input and starts the first game round.
+     */
     @FXML
     public void initialize() {
-        // Cuando presione Enter en el TextField
         inputField.setOnAction(event -> validateWord());
-
-        // Cuando presione el botón Submit
         validateButton.setOnAction(event -> validateWord());
-
-        // Iniciar juego
         startNewRound();
     }
 
+    /**
+     * Starts a new round by generating a new word, resetting the timer,
+     * and preparing the UI for the next input.
+     */
     private void startNewRound() {
-        if (gameOver) return; // no hacer nada si el juego terminó
+        if (gameOver) return;
+
         String currentWord = gameLogic.getRandomWord();
         wordLabel.setText(currentWord);
         feedbackLabel.setText("");
         infoLabel.setText("");
         inputField.clear();
 
-        // tiempo según nivel
         int roundTime = 20 - (level - 1) * 2;
         if (roundTime < 5) roundTime = 5;
 
         timeLeft = roundTime;
         timerLabel.setText("🕑 " + timeLeft);
 
-        if (timeline != null) {
-            timeline.stop();
-        }
+        if (timeline != null) timeline.stop();
 
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
             timeLeft--;
             totalTime++;
             timerLabel.setText("🕑 " + timeLeft);
-            if (timeLeft <= 0) {
-                validateWord();
-            }
+            if (timeLeft <= 0) validateWord();
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
 
+    /**
+     * Validates the player's typed word using {@link GameLogic}.
+     * <p>
+     * If the word is correct, the player may level up. Otherwise, the game ends.
+     */
     @FXML
     private void validateWord() {
-        if (timeline != null) {
-            timeline.stop();
-        }
+        if (timeline != null) timeline.stop();
 
         String input = inputField.getText();
 
@@ -82,7 +90,7 @@ public class GameController {
             feedbackLabel.setText("✅ Correcto!");
             correctStreak++;
 
-            if (correctStreak % 5 == 0) { // cada 5 aciertos seguidos
+            if (correctStreak % 5 == 0) {
                 level++;
                 feedbackLabel.setText("🚀 ¡Nivel " + level + " alcanzado!");
             }
@@ -98,37 +106,46 @@ public class GameController {
         );
         pause.setCycleCount(1);
         pause.play();
-
     }
 
+    /**
+     * Ends the game by stopping timers, locking input, and showing results.
+     */
     @FXML
     private void endGame() {
-        gameOver = true;                       // marca que el juego terminó
-        if (timeline != null) timeline.stop(); // detiene temporizador
+        gameOver = true;
+        if (timeline != null) timeline.stop();
+
         feedbackLabel.setText("❌ Incorrecto o tiempo agotado");
-        infoLabel.setText("Nivel alcanzado: " + gameLogic.getLevel() +
-                "\nTiempo Total de la partida: " + totalTime + " s");
+        infoLabel.setText(
+                "Nivel alcanzado: " + gameLogic.getLevel() +
+                        "\nTiempo Total de la partida: " + totalTime + " s"
+        );
+
         inputField.setDisable(true);
         validateButton.setDisable(true);
     }
 
-
+    /**
+     * Resets the game state, clears progress, re-enables input,
+     * and starts a new game from level 1.
+     */
     @FXML
     private void resetGame() {
         totalTime = 0;
         correctStreak = 0;
         level = 1;
         gameOver = false;
-        if (timeline != null) timeline.stop();       // detener temporizador
-        gameLogic = new GameLogic();                  // reinicia lógica
+
+        if (timeline != null) timeline.stop();
+
+        gameLogic = new GameLogic();
         feedbackLabel.setText("");
         infoLabel.setText("");
         inputField.clear();
         inputField.setDisable(false);
         validateButton.setDisable(false);
-        startNewRound();                              // inicia primer nivel
+
+        startNewRound();
     }
-
-
-
 }
